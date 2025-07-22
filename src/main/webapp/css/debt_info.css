@@ -1,0 +1,260 @@
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    background: #f8fafc;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.info-item label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.info-value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.amount-highlight {
+    color: #059669;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.balance-highlight {
+    color: #dc2626;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-badge.pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-badge.paid {
+    background: #dcfdf7;
+    color: #059669;
+}
+
+.status-badge.overdue {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.description-section {
+    margin-bottom: 1.5rem;
+}
+
+.description-section label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.description-value {
+    background: #f8fafc;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.875rem;
+    color: #475569;
+    min-height: 3rem;
+    line-height: 1.5;
+}
+
+.payment-summary {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+}
+
+.payment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+    font-size: 0.875rem;
+}
+
+.payment-item:first-child {
+    border-bottom: 1px solid #cbd5e1;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+}
+
+.paid-amount {
+    color: #059669;
+    font-weight: 600;
+}
+
+.remaining-amount {
+    color: #dc2626;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-right {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+    transform: translateY(-1px);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    transform: translateY(-1px);
+}
+
+.debt-info-section {
+    transition: all 0.3s ease-in-out;
+}
+
+.debt-info-section.editing {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+#edit-debt-form {
+    transition: all 0.3s ease-in-out;
+}
+
+#edit-debt-form.show {
+    display: block !important;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.transactions-section {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.transactions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.transactions-header label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.transaction-count {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.transactions-dropdown {
+    margin-bottom: 1rem;
+}
+
+#transactions-list {
+    width: 100%;
+    min-height: 100px;
+    font-size: 0.875rem;
+}
+
+#transactions-list option {
+    padding: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.transaction-details {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.detail-item span:last-child {
+    color: #1f2937;
+    font-weight: 500;
+}
