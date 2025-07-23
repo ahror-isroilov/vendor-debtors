@@ -125,6 +125,27 @@ body {
     transform: translateY(-1px);
 }
 
+.nav-tab.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
+    text-decoration: none;
+}
+
+.nav-tab.github-link:hover {
+    background: hsl(var(--foreground) / 0.9);
+    color: hsl(var(--background));
+    transform: translateY(-1px);
+}
+
+.nav-tab.github-link svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
 .btn-primary {
     display: inline-flex;
     align-items: center;
