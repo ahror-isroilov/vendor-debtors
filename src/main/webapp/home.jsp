@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>Debt Management - Modern Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
@@ -28,8 +27,8 @@
                         </div>
 
                         <div class="stats-panel">
-                            <div class="stat-card-main">
-                                <div class="stat-label">Total Outstanding</div>
+                            <div class="stat-card-main" style="--payment-percentage: ${stats.paymentPercentage}%;">
+                                <div class="stat-label">Total Debt</div>
                                 <div class="stat-value">$${stats.totalAmount}</div>
                             </div>
 
@@ -41,6 +40,10 @@
                             <div class="stat-card">
                                 <div class="stat-label">Overdue Amount</div>
                                 <div class="stat-value">$${stats.totalOverdue}</div>
+                            </div>
+
+                            <div class="stats-actions">
+                                <button id="view-detailed-stats" class="btn-stats" onclick="openStatsModal()">View Detailed Stats</button>
                             </div>
                         </div>
                     </div>
@@ -157,7 +160,31 @@
     <%@ include file="add_debt.jsp" %>
     <%@ include file="debt_info.jsp" %>
     <%@ include file="add_transaction.jsp" %>
-    
+    <%@ include file="detailed-stats.jsp" %>
+
+
+    <script>
+        function openStatsModal() {
+            const statsModal = document.getElementById('detailed-stats-modal');
+            if (statsModal) {
+                statsModal.style.display = 'block';
+            }
+        }
+
+        function closeStatsModal() {
+            const statsModal = document.getElementById('detailed-stats-modal');
+            if (statsModal) {
+                statsModal.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('statsStartDate') || urlParams.has('statsEndDate')) {
+                openStatsModal();
+            }
+        });
+    </script>
     <script src="js/home.js"></script>
 </body>
 </html>

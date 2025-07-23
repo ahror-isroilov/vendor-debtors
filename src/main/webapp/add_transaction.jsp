@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="css/add_transaction.css">
 <div id="add-transaction-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
