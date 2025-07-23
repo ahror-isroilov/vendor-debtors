@@ -10,8 +10,8 @@
 <div class="login-container">
     <div class="login-card">
         <div class="login-header">
-            <h1>Welcome back</h1>
-            <p>Enter your credentials to access your vendor account</p>
+            <h1>Welcome</h1>
+            <p>Enter your credentials to access your account</p>
         </div>
 
         <form action="login" method="post" class="login-form">
@@ -54,10 +54,6 @@
                 </a>
             </div>
         </form>
-
-        <div class="login-footer">
-            <p>Don't have an account? Click "Create Account" to get started.</p>
-        </div>
     </div>
 </div>
 </body>

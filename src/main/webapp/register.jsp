@@ -11,7 +11,7 @@
     <div class="login-card">
         <div class="login-header">
             <h1>Create Account</h1>
-            <p>Join our vendor platform and start managing your business</p>
+            <p>Create an account and start managing your debts</p>
         </div>
 
         <form action="register" method="post" class="login-form">
@@ -99,10 +99,6 @@
                 </a>
             </div>
         </form>
-
-        <div class="login-footer">
-            <p>By creating an account, you agree to our terms of service and privacy policy.</p>
-        </div>
     </div>
 </div>
 </body>
