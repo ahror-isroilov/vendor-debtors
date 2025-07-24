@@ -29,7 +29,7 @@ public class DebtTransactionServlet extends HttpServlet {
 
         String debtIdParam = req.getParameter("debtId");
         if (debtIdParam == null || debtIdParam.trim().isEmpty()) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required parameter: debtId");
             return;
         }
 
@@ -41,9 +41,9 @@ public class DebtTransactionServlet extends HttpServlet {
             resp.getWriter().write(gson.toJson(transactions));
 
         } catch (NumberFormatException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid debtId format");
         } catch (Exception e) {
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request");
         }
     }
 
@@ -93,7 +93,7 @@ public class DebtTransactionServlet extends HttpServlet {
             boolean success = debtTransactionDao.createTransaction(transaction);
 
             if (success) {
-                resp.sendRedirect(req.getContextPath() + "/");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
@@ -118,7 +118,7 @@ public class DebtTransactionServlet extends HttpServlet {
             boolean success = debtTransactionDao.deleteTransaction(transactionId);
             
             if (success) {
-                resp.sendRedirect(req.getContextPath() + "/");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }

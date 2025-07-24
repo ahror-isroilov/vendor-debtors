@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = req.getSession();
                 session.setAttribute("vendor", vendor);
                 session.setMaxInactiveInterval(60 * 30);
-                resp.sendRedirect("/");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
                 req.setAttribute("error", "Invalid username or password");
                 req.getRequestDispatcher("login.jsp").forward(req, resp);

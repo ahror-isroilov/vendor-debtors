@@ -76,7 +76,7 @@ public class DebtServlet extends HttpServlet {
             boolean success = debtDao.createDebt(debt);
 
             if (success) {
-                resp.sendRedirect(req.getContextPath() + "/");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
                 req.setAttribute("error", "Failed to create debt");
                 req.getRequestDispatcher("home.jsp").forward(req, resp);
@@ -133,7 +133,7 @@ public class DebtServlet extends HttpServlet {
             boolean success = debtDao.updateDebt(debt);
 
             if (success) {
-                resp.sendRedirect(req.getContextPath() + "/");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
                 req.setAttribute("error", "Failed to update debt");
                 req.getRequestDispatcher("home.jsp").forward(req, resp);
@@ -166,7 +166,7 @@ public class DebtServlet extends HttpServlet {
             boolean success = debtDao.deleteDebt(debtId, vendorId);
 
             if (success) {
-                resp.sendRedirect(req.getContextPath() + "/");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
                 req.setAttribute("error", "Failed to delete debt");
                 req.getRequestDispatcher("home.jsp").forward(req, resp);
