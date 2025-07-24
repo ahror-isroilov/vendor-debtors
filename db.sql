@@ -297,4 +297,48 @@ EXCEPTION
 END update_overdue_debts;
 /
 
+create or replace function get_all_debt_stats(p_vendor_id number)
+    return sys_refcursor is
+    v_cursor sys_refcursor;
+begin
+    open v_cursor for
+        select count(*)                                                                                    as total_debts,
+               nvl(sum(d.amount), 0)                                                                       as total_amount,
+               nvl(sum(d.balance), 0)                                                                      as total_balance,
+               avg(d.balance)                                                                              as average_balance,
+               count(case when d.status = 'PENDING' then 1 end)                                            as total_pending,
+               count(case when d.status = 'PAID' then 1 end)                                               as total_paid,
+               count(case
+                         when d.status = 'OVERDUE' or (d.due_date < sysdate and d.balance > 0)
+                             then 1 end)                                                                   as total_overdue,
+               case
+                   when nvl(sum(d.amount), 0) = 0 then 0
+                   when nvl(sum(d.balance), 0) = 0 then 100
+                   else round((1 - nvl(sum(d.balance), 0) / nvl(sum(d.amount), 0)) * 100, 0)
+                   end                                                                                     as payment_percentage
+        from debts d
+        where d.vendor_id = p_vendor_id;
+    return v_cursor;
+end;
+/
 
+create or replace function get_vendor_all_debts(p_vendor_id number)
+    return sys_refcursor is
+    v_cursor sys_refcursor;
+begin
+    open v_cursor for
+        select d.id,
+               debtor_phone,
+               debtor_name,
+               amount,
+               balance,
+               description,
+               debt_date,
+               due_date,
+               status
+        from debts d
+        where vendor_id = p_vendor_id
+        order by d.id;
+    return v_cursor;
+end;
+/
