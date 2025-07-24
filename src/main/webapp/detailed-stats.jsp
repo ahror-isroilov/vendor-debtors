@@ -64,6 +64,7 @@
             </c:if>
         </div>
         <div class="modal-footer">
+            <button type="button" class="btn-primary" onclick="window.open('export', '_blank')">Export Excel</button>
             <button type="button" class="btn-secondary" onclick="closeStatsModal()">Close</button>
         </div>
     </div>
