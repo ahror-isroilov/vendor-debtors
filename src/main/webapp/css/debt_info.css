@@ -64,12 +64,12 @@
 }
 
 .tab-btn:hover {
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
   background: hsl(var(--background) / 0.7);
 }
 
 .tab-btn.active {
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
   background: hsl(var(--background));
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
@@ -108,7 +108,7 @@
   margin: 0;
   font-size: var(--text-xl);
   font-weight: 600;
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
 }
 
 .debt-amounts {
@@ -139,7 +139,7 @@
   display: block;
   font-size: var(--text-lg);
   font-weight: 700;
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
 }
 
 .amount-value.balance-highlight {
@@ -180,13 +180,17 @@
 
 .detail-label {
   font-weight: 500;
-  color: hsl(var(--muted-foreground));
+  color: hsl(220, 14%, 35%);
   font-size: var(--text-sm);
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  letter-spacing: 0.01em;
 }
 
 .detail-row span:last-child {
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
   font-weight: 500;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .description-section {
@@ -197,19 +201,23 @@
   display: block;
   font-size: var(--text-sm);
   font-weight: 600;
-  color: hsl(var(--foreground));
+  color: hsl(220, 14%, 35%);
   margin-bottom: var(--spacing-2);
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  letter-spacing: 0.01em;
 }
 
 .description-value {
   background: hsl(var(--muted));
-  padding: var(--spacing-2);
+  padding: var(--spacing-3);
   border-radius: var(--radius-md);
   border: 1px solid hsl(var(--border));
   font-size: var(--text-sm);
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
   min-height: 2.5rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 .transactions-header {
@@ -222,14 +230,17 @@
 .transactions-header label {
   font-size: var(--text-sm);
   font-weight: 600;
-  color: hsl(var(--foreground));
+  color: hsl(220, 14%, 35%);
   margin: 0;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  letter-spacing: 0.01em;
 }
 
 .transaction-count {
   font-size: var(--text-xs);
-  color: hsl(var(--muted-foreground));
+  color: hsl(220, 14%, 35%);
   margin-left: var(--spacing-2);
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
 }
 
 .btn-sm {
@@ -297,7 +308,7 @@
 .transaction-amount {
   font-weight: 600;
   font-size: var(--text-sm);
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
 }
 
 .transaction-type {

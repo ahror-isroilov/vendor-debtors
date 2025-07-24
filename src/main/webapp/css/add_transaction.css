@@ -87,7 +87,7 @@
 .modal-header h2 {
   font-size: var(--text-lg);
   font-weight: 600;
-  color: hsl(var(--foreground));
+  color: hsl(220, 20%, 15%);
   margin: 0;
   text-align: center;
 }
@@ -156,6 +156,48 @@
 
 .form-input::placeholder {
   color: hsl(var(--muted-foreground));
+}
+
+/* Only show validation styles for inputs with content or when explicitly validated */
+input.form-input:not(:placeholder-shown):invalid,
+.form-input.was-validated:invalid,
+.form-group.error .form-input {
+  border-color: hsl(var(--destructive));
+}
+
+input.form-input:not(:placeholder-shown):invalid:focus,
+.form-input.was-validated:invalid:focus,
+.form-group.error .form-input:focus {
+  border-color: hsl(var(--destructive));
+  box-shadow: 0 0 0 3px hsl(var(--destructive) / 0.2);
+}
+
+/* For select elements, only show validation after explicit validation or error class */
+select.form-input.was-validated:invalid,
+select.form-group.error .form-input {
+  border-color: hsl(var(--destructive));
+}
+
+select.form-input.was-validated:invalid:focus,
+select.form-group.error .form-input:focus {
+  border-color: hsl(var(--destructive));
+  box-shadow: 0 0 0 3px hsl(var(--destructive) / 0.2);
+}
+
+.form-error {
+  font-size: var(--text-xs);
+  color: hsl(var(--destructive));
+  margin-top: var(--spacing-1);
+  padding-left: var(--spacing-1);
+  display: none;
+}
+
+.form-group.error .form-error {
+  display: block;
+}
+
+.form-group.error .form-input {
+  border-color: hsl(var(--destructive));
 }
 
 textarea.form-input {

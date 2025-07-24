@@ -1,3 +1,15 @@
+function formatDate(dateString) {
+    if (!dateString || dateString === '-') return '-';
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString; // Return original if invalid
+    
+    const year = date.getFullYear();
+    const month = date.toLocaleDateString('en', { month: 'short' });
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    return `${year}. ${month} ${day}`;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const debtDateInput = document.getElementById('debtDate');
     if (debtDateInput) {
@@ -49,9 +61,9 @@ function openDebtInfoModal(row) {
     document.getElementById('info-debtor-phone').textContent = debtData.debtorPhone || '-';
     document.getElementById('info-amount').textContent = '$' + (debtData.amount || '0.00');
     document.getElementById('info-balance').textContent = '$' + (debtData.balance || '0.00');
-    document.getElementById('info-debt-date').textContent = debtData.debtDate || '-';
-    document.getElementById('info-due-date').textContent = debtData.dueDate || '-';
-    document.getElementById('info-created-date').textContent = debtData.createdDate || '-';
+    document.getElementById('info-debt-date').textContent = formatDate(debtData.debtDate);
+    document.getElementById('info-due-date').textContent = formatDate(debtData.dueDate);
+    document.getElementById('info-created-date').textContent = formatDate(debtData.createdDate);
     document.getElementById('info-description').textContent = debtData.description || 'No description';
     
     const statusElement = document.getElementById('info-status');
@@ -159,7 +171,7 @@ function displayTransactions(transactions) {
     let transactionsHtml = '';
     transactions.forEach(transaction => {
         const amount = parseFloat(transaction.amount || 0).toFixed(2);
-        const date = new Date(transaction.createdDate).toLocaleDateString();
+        const date = formatDate(transaction.createdDate);
         const status = transaction.status || 'FAIL';
         const statusClass = status === 'SUCCESS' ? 'status-success' : 'status-fail';
         const type = (transaction.transactionType || '').toLowerCase().replace('_', ' ');

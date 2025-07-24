@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label for="transaction-amount">Amount *</label>
                     <input type="number" id="transaction-amount" name="amount" class="form-input" step="0.01" min="0.01"
-                           required>
+                           placeholder="0.00" required>
                     <small class="form-hint">Available balance: $<span id="available-balance">0.00</span></small>
                 </div>
 
@@ -32,9 +32,47 @@
             </form>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn-secondary">Cancel</a>
+            <a href="#" class="btn-secondary" onclick="resetTransactionForm()">Cancel</a>
             <button type="submit" form="add-transaction-form" class="btn-primary">Add Transaction</button>
         </div>
     </div>
 </div>
+
+<script>
+function resetTransactionForm() {
+    const form = document.getElementById('add-transaction-form');
+    if (form) {
+        form.reset();
+        // Remove validation classes
+        form.querySelectorAll('.form-input').forEach(input => {
+            input.classList.remove('was-validated');
+        });
+        form.querySelectorAll('.form-group').forEach(group => {
+            group.classList.remove('error');
+        });
+    }
+}
+
+// Add validation classes on form submit attempt
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('add-transaction-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Add validation class to trigger CSS validation styles
+            form.querySelectorAll('.form-input').forEach(input => {
+                input.classList.add('was-validated');
+            });
+        });
+        
+        // Reset form when modal is closed
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('a[href="#"]') || e.target.closest('.modal')) {
+                if (!e.target.closest('.modal-content')) {
+                    resetTransactionForm();
+                }
+            }
+        });
+    }
+});
+</script>
 

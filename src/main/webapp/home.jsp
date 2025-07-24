@@ -49,7 +49,14 @@
                             </div>
 
                             <div class="stats-actions">
-                                <button id="view-detailed-stats" class="btn-stats" onclick="openStatsModal()">View Detailed Stats</button>
+                                <c:choose>
+                                    <c:when test="${totalDebts > 0}">
+                                        <button id="view-detailed-stats" class="btn-stats" onclick="openStatsModal()">View Detailed Stats</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button id="view-detailed-stats" class="btn-stats disabled" disabled>View Detailed Stats</button>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
@@ -62,10 +69,12 @@
                         </div>
                         <div class="table-header-right">
                             <form method="GET" action="home" class="compact-search-form">
-                                <input type="text" id="searchQuery" name="searchQuery" 
-                                       value="${param.searchQuery}" 
-                                       placeholder="Search by name or phone" 
-                                       class="compact-search-input">
+                                <c:if test="${totalDebts > 0}">
+                                    <input type="text" id="searchQuery" name="searchQuery" 
+                                           value="${param.searchQuery}" 
+                                           placeholder="Search by name or phone" 
+                                           class="compact-search-input">
+                                </c:if>
                                 <select id="status" name="status" class="compact-status-filter">
                                     <option value="">All Status</option>
                                     <option value="PENDING" ${param.status == 'PENDING' ? 'selected' : ''}>Pending</option>
@@ -93,41 +102,59 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="debt" items="${debts}">
-                                <tr class="debt-row" 
-                                    data-debt-id="${debt.id}"
-                                    data-debtor-name="${debt.debtorName}"
-                                    data-debtor-phone="${debt.debtorPhone}"
-                                    data-amount="${debt.amount}"
-                                    data-balance="${debt.balance}"
-                                    data-description="${debt.description}"
-                                    data-debt-date="${debt.debtDate}"
-                                    data-due-date="${debt.dueDate}"
-                                    data-created-date="${debt.createdDate}"
-                                    data-status="${debt.status}">
-                                    <td>${debt.debtorName}</td>
-                                    <td>${debt.debtorPhone}</td>
-                                    <td>${debt.amount}</td>
-                                    <td>${debt.balance}</td>
-                                    <td>${debt.debtDate}</td>
-                                    <td>${debt.dueDate}</td>
-                                    <td><span class="status-badge ${debt.status.toLowerCase()}">${debt.status}</span></td>
-                                </tr>
-                            </c:forEach>
+                            <c:choose>
+                                <c:when test="${empty debts}">
+                                    <tr>
+                                        <td colspan="7" class="empty-state-container">
+                                            <div class="empty-state">
+                                                <div class="empty-state-icon">
+                                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                                        <polyline points="14,2 14,8 20,8"/>
+                                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                                        <polyline points="10,9 9,9 8,9"/>
+                                                    </svg>
+                                                </div>
+                                                <h3 class="empty-state-title">No debts found</h3>
+                                                <p class="empty-state-description">Start managing your debts by adding your first entry</p>
+                                                <a href="#add-debt-modal" class="empty-state-action">Add Your First Debt</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="debt" items="${debts}">
+                                        <tr class="debt-row" 
+                                            data-debt-id="${debt.id}"
+                                            data-debtor-name="${debt.debtorName}"
+                                            data-debtor-phone="${debt.debtorPhone}"
+                                            data-amount="${debt.amount}"
+                                            data-balance="${debt.balance}"
+                                            data-description="${debt.description}"
+                                            data-debt-date="${debt.debtDate}"
+                                            data-due-date="${debt.dueDate}"
+                                            data-created-date="${debt.createdDate}"
+                                            data-status="${debt.status}">
+                                            <td>${debt.debtorName}</td>
+                                            <td>${debt.debtorPhone}</td>
+                                            <td>${debt.amount}</td>
+                                            <td>${debt.balance}</td>
+                                            <td>${debt.debtDate}</td>
+                                            <td>${debt.dueDate}</td>
+                                            <td><span class="status-badge ${debt.status.toLowerCase()}">${debt.status}</span></td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </tbody>
                     </table>
 
-                    <div class="pagination-container">
-                        <div class="pagination-info">
-                            <c:choose>
-                                <c:when test="${totalDebts > 0}">
-                                    Showing ${startEntry}-${endEntry} of ${totalDebts} entries
-                                </c:when>
-                                <c:otherwise>
-                                    No entries found
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
+                    <c:if test="${totalDebts > 0}">
+                        <div class="pagination-container">
+                            <div class="pagination-info">
+                                Showing ${startEntry}-${endEntry} of ${totalDebts} entries
+                            </div>
                         <div class="pagination-controls">
                             <c:if test="${hasPrevious}">
                                 <a href="home?page=${currentPage - 1}${not empty param.searchQuery ? '&searchQuery='.concat(param.searchQuery) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}" class="pagination-btn">&larr;</a>
@@ -157,7 +184,8 @@
                                 <span class="pagination-btn disabled">&rarr;</span>
                             </c:if>
                         </div>
-                    </div>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </main>
