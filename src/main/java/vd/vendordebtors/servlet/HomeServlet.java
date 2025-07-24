@@ -20,42 +20,39 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet(name = "homeServlet", value = "/")
+@WebServlet(name = "homeServlet", value = "/home")
 public class HomeServlet extends HttpServlet {
     private final DebtDao debtDao = new DebtDao();
     private final StatsDao statsDao = new StatsDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession(false);
-        if (session != null && session.getAttribute("vendor") != null) {
-            Vendor vendor = (Vendor) session.getAttribute("vendor");
-            try {
-                PageResult pageResult = getPageResult(req, vendor);
+        HttpSession session = req.getSession();
+        Vendor vendor = (Vendor) session.getAttribute("vendor");
+        
+        try {
+            PageResult pageResult = getPageResult(req, vendor);
 
-                VendorStats stats = statsDao.getVendorStats(vendor.getId());
+            VendorStats stats = statsDao.getVendorStats(vendor.getId());
 
-                DetailedStats detailedStats = getDetailedStats(req, resp, pageResult.statsStartDate(), pageResult.statsEndDate(), vendor);
+            DetailedStats detailedStats = getDetailedStats(req, resp, pageResult.statsStartDate(), pageResult.statsEndDate(), vendor);
 
-                req.setAttribute("vendor", vendor);
-                req.setAttribute("detailedStats", detailedStats);
-                req.setAttribute("debts", pageResult.debts());
-                req.setAttribute("stats", stats);
-                req.setAttribute("currentPage", pageResult.page());
-                req.setAttribute("pageSize", pageResult.size());
-                req.setAttribute("totalDebts", pageResult.totalDebts());
-                req.setAttribute("totalPages", pageResult.totalPages());
-                req.setAttribute("startEntry", pageResult.startEntry());
-                req.setAttribute("endEntry", pageResult.endEntry());
-                req.setAttribute("hasPrevious", pageResult.page() > 1);
-                req.setAttribute("hasNext", pageResult.page() < pageResult.totalPages());
+            req.setAttribute("vendor", vendor);
+            req.setAttribute("detailedStats", detailedStats);
+            req.setAttribute("debts", pageResult.debts());
+            req.setAttribute("stats", stats);
+            req.setAttribute("currentPage", pageResult.page());
+            req.setAttribute("pageSize", pageResult.size());
+            req.setAttribute("totalDebts", pageResult.totalDebts());
+            req.setAttribute("totalPages", pageResult.totalPages());
+            req.setAttribute("startEntry", pageResult.startEntry());
+            req.setAttribute("endEntry", pageResult.endEntry());
+            req.setAttribute("hasPrevious", pageResult.page() > 1);
+            req.setAttribute("hasNext", pageResult.page() < pageResult.totalPages());
 
-                req.getRequestDispatcher("home.jsp").forward(req, resp);
-            } catch (SQLException | ServletException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            resp.sendRedirect("login.jsp");
+            req.getRequestDispatcher("home.jsp").forward(req, resp);
+        } catch (SQLException | ServletException e) {
+            throw new RuntimeException(e);
         }
     }
 

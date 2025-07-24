@@ -30,18 +30,17 @@ public class DataExportServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         Vendor vendor = (Vendor) session.getAttribute("vendor");
-        if (vendor != null) {
-            try {
-                ExportData data = statsDao.getExportData(vendor.getId());
-                Workbook workbook = createExcelFile(data, vendor.getName());
-                resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-                resp.setHeader("Content-Disposition",
-                        "attachment; filename=vendor_debts-%s.xlsx".formatted(new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())));
-                workbook.write(resp.getOutputStream());
-                workbook.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        
+        try {
+            ExportData data = statsDao.getExportData(vendor.getId());
+            Workbook workbook = createExcelFile(data, vendor.getName());
+            resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            resp.setHeader("Content-Disposition",
+                    "attachment; filename=vendor_debts-%s.xlsx".formatted(new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())));
+            workbook.write(resp.getOutputStream());
+            workbook.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
