@@ -36,7 +36,6 @@ public class DebtTransactionServlet extends HttpServlet {
         try {
             int debtId = Integer.parseInt(debtIdParam);
             List<DebtTransaction> transactions = debtTransactionDao.getDebtTransactions(debtId);
-
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(gson.toJson(transactions));
