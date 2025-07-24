@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class VendorStats {
-    private BigDecimal totalAmount;
-    private BigDecimal totalBalance;
-    private BigDecimal totalOverdue;
-    private int paymentPercentage;
+    private final BigDecimal totalAmount;
+    private final BigDecimal totalBalance;
+    private final BigDecimal totalOverdue;
+    private final int paymentPercentage;
 
     public VendorStats(BigDecimal totalAmount, BigDecimal totalBalance, BigDecimal totalOverdue) {
         this.totalAmount = totalAmount;

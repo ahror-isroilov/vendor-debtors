@@ -15,10 +15,8 @@ public class VendorDao {
         String sql = "SELECT * FROM VENDORS WHERE username = ? AND status = 'ACTIVE'";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
                 if (verifyPassword(password, storedPassword)) {
@@ -33,10 +31,8 @@ public class VendorDao {
         String sql = "SELECT * FROM VENDORS WHERE id = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setInt(1, vendorId);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                 return mapResultSetToVendor(rs);
             }
@@ -70,13 +66,11 @@ public class VendorDao {
         String sql = "INSERT INTO VENDORS (username, password, name, phone,status) VALUES (?, ?, ?, ?,?)";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, vendor.getUsername());
             stmt.setString(2, hashPassword(vendor.getPassword()));
             stmt.setString(3, vendor.getName());
             stmt.setString(4, vendor.getPhone());
             stmt.setString(5, "ACTIVE");
-
             return stmt.executeUpdate() > 0;
         }
     }
@@ -85,11 +79,9 @@ public class VendorDao {
         String sql = "UPDATE VENDORS SET name = ?, phone = ? WHERE vendor_id = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
             stmt.setString(1, vendor.getName());
             stmt.setString(3, vendor.getPhone());
             stmt.setInt(5, vendor.getId());
-
             return stmt.executeUpdate() > 0;
         }
     }

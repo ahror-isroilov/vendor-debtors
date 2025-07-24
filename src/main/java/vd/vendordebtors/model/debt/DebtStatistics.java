@@ -86,11 +86,4 @@ public class DebtStatistics {
         }
         return totalOriginalAmount.subtract(totalCurrentAmount);
     }
-
-    public double getPaymentPercentage() {
-        if (totalOriginalAmount == null || totalOriginalAmount.compareTo(BigDecimal.ZERO) == 0) {
-            return 0.0;
-        }
-        return getTotalPaidAmount().divide(totalOriginalAmount, 4, RoundingMode.HALF_EVEN).multiply(new BigDecimal(100)).doubleValue();
-    }
 }

@@ -12,10 +12,11 @@ public class DebtDao {
     private final DebtTransactionDao debtTransactionDao = new DebtTransactionDao();
     public List<Debt> getDebtsWithPagination(int vendorId, int page, int size) throws SQLException {
         int offset = (page - 1) * size;
-        String sql = "SELECT * FROM (" +
-                "  SELECT d.*, ROW_NUMBER() OVER (ORDER BY d.created_date DESC) as rn " +
-                "  FROM DEBTS d WHERE d.vendor_id = ?" +
-                ") WHERE rn > ? AND rn <= ?";
+        String sql = """
+                SELECT * FROM (
+                  SELECT d.*, ROW_NUMBER() OVER (ORDER BY d.created_date DESC) as rn 
+                  FROM DEBTS d WHERE d.vendor_id = ?
+                ) WHERE rn > ? AND rn <= ?""";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, vendorId);
@@ -91,6 +92,22 @@ public class DebtDao {
         }
     }
 
+    public List<Debt> searchDebts(String debtorPhone, String debtorName, int vendorId, String status) throws SQLException {
+        String sql = "{call search_debts(?, ?, ?, ?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection(); CallableStatement stmt = conn.prepareCall(sql)) {
+            stmt.setString(1, debtorPhone);
+            stmt.setString(2, debtorName);
+            stmt.setInt(3, vendorId);
+            stmt.setString(4, status);
+            stmt.registerOutParameter(5, OracleTypes.CURSOR);
+            stmt.execute();
+            try (ResultSet rs = (ResultSet) stmt.getObject(5)) {
+                return mapRsToDebt(rs);
+            }
+        }
+    }
+
     private List<Debt> mapRsToDebt(ResultSet rs) throws SQLException {
         List<Debt> debts = new ArrayList<>();
         while (rs.next()) {
@@ -110,26 +127,5 @@ public class DebtDao {
             debts.add(debt);
         }
         return debts;
-    }
-
-    public List<Debt> searchDebts(String debtorPhone, String debtorName, int vendorId, 
-                                  String status) throws SQLException {
-        String sql = "{call search_debts(?, ?, ?, ?, ?)}";
-        
-        try (Connection conn = DBConnection.getConnection();
-             CallableStatement stmt = conn.prepareCall(sql)) {
-            
-            stmt.setString(1, debtorPhone);
-            stmt.setString(2, debtorName);
-            stmt.setInt(3, vendorId);
-            stmt.setString(4, status);
-            stmt.registerOutParameter(5, OracleTypes.CURSOR);
-            
-            stmt.execute();
-            
-            try (ResultSet rs = (ResultSet) stmt.getObject(5)) {
-                return mapRsToDebt(rs);
-            }
-        }
     }
 }

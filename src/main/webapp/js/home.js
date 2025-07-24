@@ -52,7 +52,7 @@ function openDebtInfoModal(row) {
     document.getElementById('info-debt-date').textContent = debtData.debtDate || '-';
     document.getElementById('info-due-date').textContent = debtData.dueDate || '-';
     document.getElementById('info-created-date').textContent = debtData.createdDate || '-';
-    document.getElementById('info-description').textContent = debtData.description || 'No description provided';
+    document.getElementById('info-description').textContent = debtData.description || 'No description';
     
     const statusElement = document.getElementById('info-status');
     const status = debtData.status || 'PENDING';
@@ -66,12 +66,8 @@ function openDebtInfoModal(row) {
     document.getElementById('info-paid-amount').textContent = '$' + paidAmount.toFixed(2);
     
     const addTransactionBtn = document.getElementById('add-transaction-btn');
-    if (status === 'PAID' || balance <= 0) {
-        addTransactionBtn.style.display = 'none';
-    } else {
-        addTransactionBtn.style.display = 'inline-block';
-    }
-    
+    if (status === 'PAID' || balance <= 0) addTransactionBtn.style.display = 'none'; else addTransactionBtn.style.display = 'inline-block';
+
     populateForms(debtData);
     
     loadDebtTransactions(debtData.debtId);

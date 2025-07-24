@@ -13,14 +13,10 @@ public class DebtTransactionDao {
     public List<DebtTransaction> getDebtTransactions(int debtId) throws SQLException {
         String sql = "{call get_debt_transactions(?, ?)}";
 
-        try (Connection conn = DBConnection.getConnection();
-             CallableStatement stmt = conn.prepareCall(sql)) {
-
+        try (Connection conn = DBConnection.getConnection(); CallableStatement stmt = conn.prepareCall(sql)) {
             stmt.setInt(1, debtId);
             stmt.registerOutParameter(2, OracleTypes.CURSOR);
-
             stmt.execute();
-
             try (ResultSet rs = (ResultSet) stmt.getObject(2)) {
                 return mapRsToDebtTransactions(rs);
             }
@@ -29,7 +25,6 @@ public class DebtTransactionDao {
 
     private List<DebtTransaction> mapRsToDebtTransactions(ResultSet rs) throws SQLException {
         List<DebtTransaction> transactions = new ArrayList<>();
-
         while (rs.next()) {
             DebtTransaction transaction = new DebtTransaction();
             transaction.setId(rs.getInt("transaction_id"));
@@ -38,7 +33,6 @@ public class DebtTransactionDao {
             transaction.setDescription(rs.getString("transaction_description"));
             transaction.setCreatedDate(rs.getDate("transaction_date"));
             transaction.setStatus(rs.getString("transaction_status"));
-
             transactions.add(transaction);
         }
 
@@ -48,8 +42,7 @@ public class DebtTransactionDao {
     public boolean createTransaction(DebtTransaction transaction) throws SQLException {
         String sql = "INSERT INTO DEBT_TRANSACTION (debt_id, transaction_type, amount, description, created_date, status) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             try {
                 stmt.setInt(1, transaction.getDebtId());
                 stmt.setString(2, transaction.getTransactionType());
@@ -57,10 +50,8 @@ public class DebtTransactionDao {
                 stmt.setString(4, transaction.getDescription());
                 stmt.setTimestamp(5, new Timestamp(transaction.getCreatedDate().getTime()));
                 stmt.setString(6, "SUCCESS");
-
                 return stmt.executeUpdate() > 0;
             } catch (Exception e) {
-                System.out.println("Exception: " + e.getMessage());
                 return false;
             }
         }
