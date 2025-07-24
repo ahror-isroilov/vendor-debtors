@@ -190,7 +190,7 @@
 .detailed-stat-card {
   background: hsl(var(--background));
   border: 1px solid hsl(var(--border));
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--spacing-3);
   text-align: center;
   transition: all 0.3s ease;

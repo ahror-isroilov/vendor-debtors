@@ -121,7 +121,7 @@
   text-align: center;
   padding: var(--spacing-2);
   background: hsl(var(--background));
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   border: 1px solid hsl(var(--border));
 }
 
@@ -151,11 +151,11 @@
 }
 
 .balance-highlight {
-  color: hsl(var(--destructive));
+  color: hsl(var(--warning));
 }
 
 .paid-amount {
-  color: hsl(var(--success));
+  color: hsl(var(--secondary));
 }
 
 .info-details {
