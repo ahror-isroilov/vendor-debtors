@@ -6,6 +6,7 @@ import vd.vendordebtors.model.VendorStats;
 import vd.vendordebtors.util.DBConnection;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.*;
 import java.util.Date;
 
@@ -58,7 +59,7 @@ public class StatsDao {
                             rs.getInt("total_debts"),
                             rs.getBigDecimal("total_amount"),
                             rs.getBigDecimal("total_balance"),
-                            rs.getBigDecimal("average_balance"),
+                            rs.getBigDecimal("average_balance").setScale(0, RoundingMode.HALF_UP),
                             rs.getInt("total_pending"),
                             rs.getInt("total_paid"),
                             rs.getInt("total_overdue"),
