@@ -111,7 +111,7 @@ public class HomeServlet extends HttpServlet {
         return new PageResult(page, size, statsStartDate, statsEndDate, debts, totalDebts, totalPages, startEntry, endEntry);
     }
 
-    private DetailedStats getDetailedStats(HttpServletRequest req, HttpServletResponse resp, String statsStartDate, String statsEndDate, Vendor vendor) throws ServletException, IOException {
+    private DetailedStats getDetailedStats(HttpServletRequest req, HttpServletResponse resp, String statsStartDate, String statsEndDate, Vendor vendor) {
         DetailedStats detailedStats = null;
         if (statsStartDate != null && statsEndDate != null && !statsStartDate.isEmpty() && !statsEndDate.isEmpty()) {
             try {
@@ -121,7 +121,6 @@ public class HomeServlet extends HttpServlet {
                 detailedStats = statsDao.getDetailedStatsByDate(vendor.getId(), startDate, endDate);
             } catch (Exception e) {
                 req.setAttribute("error", "Error occurred while loading detailed stats: " + e.getMessage());
-                req.getRequestDispatcher("home.jsp").forward(req, resp);
             }
         } else {
             try {
@@ -134,7 +133,6 @@ public class HomeServlet extends HttpServlet {
                 req.setAttribute("defaultEndDate", dateFormat.format(today));
             } catch (Exception e) {
                 req.setAttribute("error", "Error occurred while loading detailed stats: " + e.getMessage());
-                req.getRequestDispatcher("home.jsp").forward(req, resp);
             }
         }
         return detailedStats;
