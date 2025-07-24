@@ -7,9 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import vd.vendordebtors.dao.StatsDao;
 import vd.vendordebtors.model.DetailedStats;
 import vd.vendordebtors.model.ExportData;
@@ -30,7 +30,7 @@ public class DataExportServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         Vendor vendor = (Vendor) session.getAttribute("vendor");
-        
+
         try {
             ExportData data = statsDao.getExportData(vendor.getId());
             Workbook workbook = createExcelFile(data, vendor.getName());
@@ -184,7 +184,6 @@ public class DataExportServlet extends HttpServlet {
             cell.setCellStyle(headerStyle);
         }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         List<Debt> debts = data.debts();
 
         for (int debtIndex = 0; debtIndex < debts.size(); debtIndex++) {
@@ -213,7 +212,8 @@ public class DataExportServlet extends HttpServlet {
             Cell balanceCell = row.createCell(4);
             double balanceValue = debt.getBalance().doubleValue();
             balanceCell.setCellValue(balanceValue);
-            CellStyle balanceStyle = buildCurrencyDataStyle(workbook, debtIndex % 2 == 0);
+            CellStyle balanceStyle;
+            balanceStyle = buildCurrencyDataStyle(workbook, debtIndex % 2 == 0);
             if (balanceValue > 0) {
                 balanceStyle = buildCurrencyNegativeDataStyle(workbook, debtIndex % 2 == 0);
             } else {
@@ -258,11 +258,8 @@ public class DataExportServlet extends HttpServlet {
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 6));
         sheet.addMergedRegion(new CellRangeAddress(1, 1, 0, 6));
         sheet.addMergedRegion(new CellRangeAddress(2, 2, 0, 6));
-
-        sheet.getPrintSetup().setLandscape(true);
-        sheet.getPrintSetup().setFitWidth((short) 1);
-        sheet.getPrintSetup().setFitHeight((short) 0);
-
+        sheet.addMergedRegion(new CellRangeAddress(5, 5, 0, 2));
+        sheet.addMergedRegion(new CellRangeAddress(19, 19, 0, 2));
         return workbook;
     }
 
