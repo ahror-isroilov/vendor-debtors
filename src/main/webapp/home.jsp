@@ -61,7 +61,7 @@
                             <h2 class="section-title">Active Debts</h2>
                         </div>
                         <div class="table-header-right">
-                            <form method="GET" action="/" class="compact-search-form">
+                            <form method="GET" action="home" class="compact-search-form">
                                 <input type="text" id="searchQuery" name="searchQuery" 
                                        value="${param.searchQuery}" 
                                        placeholder="Search by name or phone" 
@@ -130,7 +130,7 @@
                         </div>
                         <div class="pagination-controls">
                             <c:if test="${hasPrevious}">
-                                <a href="?page=${currentPage - 1}${not empty param.searchQuery ? '&searchQuery='.concat(param.searchQuery) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}" class="pagination-btn">&larr;</a>
+                                <a href="home?page=${currentPage - 1}${not empty param.searchQuery ? '&searchQuery='.concat(param.searchQuery) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}" class="pagination-btn">&larr;</a>
                             </c:if>
                             <c:if test="${!hasPrevious}">
                                 <span class="pagination-btn disabled">&larr;</span>
@@ -144,14 +144,14 @@
                                             <span class="pagination-btn active">${pageNum}</span>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="?page=${pageNum}${not empty param.searchQuery ? '&searchQuery='.concat(param.searchQuery) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}" class="pagination-btn">${pageNum}</a>
+                                            <a href="home?page=${pageNum}${not empty param.searchQuery ? '&searchQuery='.concat(param.searchQuery) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}" class="pagination-btn">${pageNum}</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </c:if>
                             </c:forEach>
                             
                             <c:if test="${hasNext}">
-                                <a href="?page=${currentPage + 1}${not empty param.searchQuery ? '&searchQuery='.concat(param.searchQuery) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}" class="pagination-btn">&rarr;</a>
+                                <a href="home?page=${currentPage + 1}${not empty param.searchQuery ? '&searchQuery='.concat(param.searchQuery) : ''}${not empty param.status ? '&status='.concat(param.status) : ''}" class="pagination-btn">&rarr;</a>
                             </c:if>
                             <c:if test="${!hasNext}">
                                 <span class="pagination-btn disabled">&rarr;</span>

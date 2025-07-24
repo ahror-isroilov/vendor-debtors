@@ -6,7 +6,7 @@
             <h2>Detailed Statistics</h2>
         </div>
         <div class="modal-body">
-            <form method="GET" action="/home" class="stats-form">
+            <form method="GET" action="home" class="stats-form">
                 <div class="date-range-selector">
                     <div class="form-group">
                         <label for="stats-start-date">From:</label>
