@@ -100,35 +100,21 @@ public class DebtServlet extends HttpServlet {
             String debtIdStr = req.getParameter("debtId");
             String debtorName = req.getParameter("debtorName");
             String debtorPhone = req.getParameter("debtorPhone");
-            String amountStr = req.getParameter("amount");
-            String balanceStr = req.getParameter("balance");
             String debtDateStr = req.getParameter("debtDate");
             String dueDateStr = req.getParameter("dueDate");
-            String status = req.getParameter("status");
             String description = req.getParameter("description");
-
-            if (debtIdStr == null || debtorName == null || debtorName.trim().isEmpty() ||
-                    amountStr == null || balanceStr == null || debtDateStr == null) {
-                req.setAttribute("error", "Required fields are missing");
-                req.getRequestDispatcher("home.jsp").forward(req, resp);
-                return;
-            }
 
             Debt debt = new Debt();
             debt.setId(Integer.parseInt(debtIdStr));
             debt.setVendorId(vendorId);
             debt.setDebtorName(debtorName.trim());
             debt.setDebtorPhone(debtorPhone != null ? debtorPhone.trim() : null);
-            debt.setAmount(new java.math.BigDecimal(amountStr));
-            debt.setBalance(new java.math.BigDecimal(balanceStr));
             debt.setDescription(description != null ? description.trim() : null);
             debt.setDebtDate(java.sql.Date.valueOf(debtDateStr));
 
             if (dueDateStr != null && !dueDateStr.trim().isEmpty()) {
                 debt.setDueDate(java.sql.Date.valueOf(dueDateStr));
             }
-
-            debt.setStatus(status != null ? status : "ACTIVE");
 
             boolean success = debtDao.updateDebt(debt);
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DebtDao {
     private final DebtTransactionDao debtTransactionDao = new DebtTransactionDao();
+
     public List<Debt> getDebtsWithPagination(int vendorId, int page, int size) throws SQLException {
         int offset = (page - 1) * size;
         String sql = """
@@ -60,18 +61,15 @@ public class DebtDao {
     }
 
     public boolean updateDebt(Debt debt) throws SQLException {
-        String sql = "UPDATE DEBTS SET debtor_name = ?, debtor_phone = ?, amount = ?, balance = ?, description = ?, debt_date = ?, due_date = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE DEBTS SET debtor_name = ?, debtor_phone = ?, description = ?, debt_date = ?, due_date = ? WHERE id = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, debt.getDebtorName());
             stmt.setString(2, debt.getDebtorPhone());
-            stmt.setBigDecimal(3, debt.getAmount());
-            stmt.setBigDecimal(4, debt.getBalance());
-            stmt.setString(5, debt.getDescription());
-            stmt.setDate(6, new java.sql.Date(debt.getDebtDate().getTime()));
-            stmt.setDate(7, debt.getDueDate() != null ? new java.sql.Date(debt.getDueDate().getTime()) : null);
-            stmt.setString(8, debt.getStatus());
-            stmt.setInt(9, debt.getId());
+            stmt.setString(3, debt.getDescription());
+            stmt.setDate(4, new java.sql.Date(debt.getDebtDate().getTime()));
+            stmt.setDate(5, debt.getDueDate() != null ? new java.sql.Date(debt.getDueDate().getTime()) : null);
+            stmt.setInt(6, debt.getId());
 
             return stmt.executeUpdate() > 0;
         }

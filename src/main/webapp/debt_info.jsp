@@ -85,17 +85,6 @@
                     <label for="edit-debtor-phone">Phone Number</label>
                     <input type="tel" id="edit-debtor-phone" name="debtorPhone" class="form-input">
                 </div>
-
-                <div class="form-group">
-                    <label for="edit-amount">Amount *</label>
-                    <input type="number" id="edit-amount" name="amount" class="form-input" step="0.01" min="0" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="edit-balance">Balance *</label>
-                    <input type="number" id="edit-balance" name="balance" class="form-input" step="0.01" min="0" required>
-                </div>
-
                 <div class="form-group">
                     <label for="edit-debt-date">Debt Date *</label>
                     <input type="date" id="edit-debt-date" name="debtDate" class="form-input" required>
@@ -105,16 +94,6 @@
                     <label for="edit-due-date">Due Date</label>
                     <input type="date" id="edit-due-date" name="dueDate" class="form-input">
                 </div>
-
-                <div class="form-group">
-                    <label for="edit-status">Status</label>
-                    <select id="edit-status" name="status" class="form-input">
-                        <option value="PENDING">Pending</option>
-                        <option value="PAID">Paid</option>
-                        <option value="OVERDUE">Overdue</option>
-                    </select>
-                </div>
-
                 <div class="form-group">
                     <label for="edit-description">Description</label>
                     <textarea id="edit-description" name="description" class="form-input" rows="3"></textarea>
