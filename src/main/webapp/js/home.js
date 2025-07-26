@@ -65,20 +65,17 @@ function openDebtInfoModal(row) {
     document.getElementById('info-due-date').textContent = formatDate(debtData.dueDate);
     document.getElementById('info-created-date').textContent = formatDate(debtData.createdDate);
     document.getElementById('info-description').textContent = debtData.description || 'No description';
-    
+
     const statusElement = document.getElementById('info-status');
     const status = debtData.status || 'PENDING';
     statusElement.textContent = status;
     statusElement.className = 'status-badge ' + status.toLowerCase();
-    
+
     const amount = parseFloat(debtData.amount || 0);
     const balance = parseFloat(debtData.balance || 0);
     const paidAmount = amount - balance;
-    
-    document.getElementById('info-paid-amount').textContent = '$' + paidAmount.toFixed(2);
-    
-    const addTransactionBtn = document.getElementById('add-transaction-btn');
-    if (status === 'PAID' || balance <= 0) addTransactionBtn.style.display = 'none'; else addTransactionBtn.style.display = 'inline-block';
+
+    document.getElementById('info-paid-amount').textContent = '$' + paidAmount;
 
     populateForms(debtData);
     
@@ -100,11 +97,8 @@ function populateForms(debtData) {
     document.getElementById('delete-debt-id').value = debtData.debtId || '';
     document.getElementById('edit-debtor-name').value = debtData.debtorName || '';
     document.getElementById('edit-debtor-phone').value = debtData.debtorPhone || '';
-    document.getElementById('edit-amount').value = debtData.amount || '';
-    document.getElementById('edit-balance').value = debtData.balance || '';
     document.getElementById('edit-debt-date').value = debtData.debtDate || '';
     document.getElementById('edit-due-date').value = debtData.dueDate || '';
-    document.getElementById('edit-status').value = debtData.status || 'PENDING';
     document.getElementById('edit-description').value = debtData.description || '';
 }
 
