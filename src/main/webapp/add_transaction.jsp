@@ -14,6 +14,7 @@
                     <select id="transaction-type" name="transactionType" class="form-input" required>
                         <option value="">Select type...</option>
                         <option value="CREDIT">Credit</option>
+                        <option value="DEBIT">Debit</option>
                     </select>
                 </div>
 
@@ -43,7 +44,6 @@ function resetTransactionForm() {
     const form = document.getElementById('add-transaction-form');
     if (form) {
         form.reset();
-        // Remove validation classes
         form.querySelectorAll('.form-input').forEach(input => {
             input.classList.remove('was-validated');
         });
@@ -53,18 +53,15 @@ function resetTransactionForm() {
     }
 }
 
-// Add validation classes on form submit attempt
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('add-transaction-form');
     if (form) {
         form.addEventListener('submit', function(e) {
-            // Add validation class to trigger CSS validation styles
             form.querySelectorAll('.form-input').forEach(input => {
                 input.classList.add('was-validated');
             });
         });
         
-        // Reset form when modal is closed
         document.addEventListener('click', function(e) {
             if (e.target.matches('a[href="#"]') || e.target.closest('.modal')) {
                 if (!e.target.closest('.modal-content')) {
