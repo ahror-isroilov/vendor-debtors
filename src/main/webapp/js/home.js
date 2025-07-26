@@ -2,34 +2,34 @@ function formatDate(dateString) {
     if (!dateString || dateString === '-') return '-';
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString; // Return original if invalid
-    
+
     const year = date.getFullYear();
-    const month = date.toLocaleDateString('en', { month: 'short' });
+    const month = date.toLocaleDateString('en', {month: 'short'});
     const day = String(date.getDate()).padStart(2, '0');
-    
+
     return `${year}. ${month} ${day}`;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const debtDateInput = document.getElementById('debtDate');
     if (debtDateInput) {
         debtDateInput.value = new Date().toISOString().split('T')[0];
     }
-    
+
     document.querySelectorAll('.debt-row').forEach(row => {
-        row.addEventListener('click', function() {
+        row.addEventListener('click', function () {
             document.querySelectorAll('.debt-row').forEach(r => r.classList.remove('selected'));
             this.classList.add('selected');
             openDebtInfoModal(this);
         });
     });
-    
+
     const addTransactionBtn = document.getElementById('add-transaction-btn');
     if (addTransactionBtn) {
         addTransactionBtn.addEventListener('click', openAddTransactionModal);
     }
-    
-    document.addEventListener('click', function(e) {
+
+    document.addEventListener('click', function (e) {
         if (e.target.matches('.btn-secondary')) {
             e.preventDefault();
             if (e.target.closest('#debt-info-modal')) {
@@ -41,10 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-    
+
     const debtInfoModal = document.getElementById('debt-info-modal');
     if (debtInfoModal) {
-        debtInfoModal.addEventListener('click', function(e) {
+        debtInfoModal.addEventListener('click', function (e) {
             if (e.target === this) {
                 closeDebtInfoModal();
             }
@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function openDebtInfoModal(row) {
     const debtData = row.dataset;
-    
+
     window.currentDebtData = debtData;
-    
+
     document.getElementById('info-debtor-name').textContent = debtData.debtorName || '-';
     document.getElementById('info-debtor-phone').textContent = debtData.debtorPhone || '-';
     document.getElementById('info-amount').textContent = '$' + (debtData.amount || '0.00');
@@ -78,12 +78,12 @@ function openDebtInfoModal(row) {
     document.getElementById('info-paid-amount').textContent = '$' + paidAmount;
 
     populateForms(debtData);
-    
+
     loadDebtTransactions(debtData.debtId);
-    
+
     switchTab('info');
     setupTabListeners();
-    
+
     document.getElementById('debt-info-modal').classList.add('show');
 }
 
@@ -105,13 +105,13 @@ function populateForms(debtData) {
 function switchTab(tabName) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
+
     document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
     document.getElementById(`${tabName}-tab`).classList.add('active');
-    
+
     const deleteBtn = document.getElementById('delete-debt-btn');
     const saveBtn = document.getElementById('save-debt-btn');
-    
+
     if (tabName === 'edit') {
         deleteBtn.style.display = 'inline-block';
         saveBtn.style.display = 'inline-block';
@@ -125,9 +125,9 @@ function setupTabListeners() {
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.replaceWith(btn.cloneNode(true));
     });
-    
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             switchTab(this.dataset.tab);
         });
     });
@@ -135,13 +135,13 @@ function setupTabListeners() {
 
 function loadDebtTransactions(debtId) {
     if (!debtId) return;
-    
+
     const transactionsContainer = document.getElementById('transactions-container');
     const transactionCount = document.getElementById('transaction-count');
-    
+
     transactionsContainer.innerHTML = '<div class="loading-transactions">Loading transactions...</div>';
     transactionCount.textContent = '(Loading...)';
-    
+
     fetch(`debt-transactions?debtId=${debtId}`)
         .then(response => response.ok ? response.json() : Promise.reject('Failed to load'))
         .then(transactions => displayTransactions(transactions))
@@ -155,36 +155,34 @@ function loadDebtTransactions(debtId) {
 function displayTransactions(transactions) {
     const transactionsContainer = document.getElementById('transactions-container');
     const transactionCount = document.getElementById('transaction-count');
-    
+
     if (transactions.length === 0) {
         transactionsContainer.innerHTML = '<div class="no-transactions">No transactions found</div>';
         transactionCount.textContent = '(0 transactions)';
         return;
     }
-    
+
     let transactionsHtml = '';
     transactions.forEach(transaction => {
         const amount = parseFloat(transaction.amount || 0).toFixed(2);
         const date = formatDate(transaction.createdDate);
-        const status = transaction.status || 'FAIL';
-        const statusClass = status === 'SUCCESS' ? 'status-success' : 'status-fail';
-        const type = (transaction.transactionType || '').toLowerCase().replace('_', ' ');
         const description = transaction.description || '';
+
+        const typeClass = transaction.transactionType === 'CREDIT' ? 'transaction-badge-credit' : 'transaction-badge-debit';
         
         transactionsHtml += `
             <div class="transaction-item">
                 <div class="transaction-main">
                     <div>
                         <span class="transaction-amount">$${amount}</span>
-                        <span class="transaction-type"> - ${type}</span>
                         <span class="transaction-date"> (${date})</span>
+                        <span class="transaction-badge ${typeClass}">${transaction.transactionType || 'DEBIT'}</span>
                     </div>
-                    <div class="transaction-status">
-                        <div class="status-indicator ${statusClass}"></div>
+                    <div class="transaction-actions">
                         <form method="POST" action="debt-transactions" style="display: inline;">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="transactionId" value="${transaction.id}">
-                            <button type="submit" class="btn-delete-transaction" title="Delete Transaction">×</button>
+                            <button type="submit" class="btn-delete-text" title="Delete Transaction">delete</button>
                         </form>
                     </div>
                 </div>
@@ -192,21 +190,24 @@ function displayTransactions(transactions) {
             </div>
         `;
     });
-    
+
     transactionsContainer.innerHTML = transactionsHtml;
-    transactionCount.textContent = `(${transactions.length} transaction${transactions.length !== 1 ? 's' : ''})`; 
+    transactionCount.textContent = `(${transactions.length} transaction${transactions.length !== 1 ? 's' : ''})`;
 }
 
 function openAddTransactionModal() {
     if (!window.currentDebtData) return;
-    
+
     const debtData = window.currentDebtData;
     document.getElementById('transaction-debt-id').value = debtData.debtId;
+    // const type = document.getElementById('transaction-type').value;
     document.getElementById('available-balance').textContent = parseFloat(debtData.balance || 0).toFixed(2);
-    
-    const amountInput = document.getElementById('transaction-amount');
-    amountInput.max = debtData.balance;
-    
+
+    // const amountInput = document.getElementById('transaction-amount');
+    // if (type === 'CREDIT') {
+    //     amountInput.max = debtData.balance;
+    // }
+
     window.location.hash = 'add-transaction-modal';
 }
 
